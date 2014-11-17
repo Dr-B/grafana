@@ -325,6 +325,7 @@ function (angular, $, kbn, moment, _, GraphTooltip) {
 
         function configureAxisOptions(data, options) {
           var defaults = {
+            labelWidth: 50,
             position: 'left',
             show: scope.panel['y-axis'],
             min: scope.panel.grid.leftMin,
