@@ -26,6 +26,7 @@ function (angular, $, kbn, moment, _, GraphTooltip) {
       link: function(scope, elem) {
         var dashboard = scope.dashboard;
         var data, annotations;
+        var sortedSeries;
         var legendSideLastValue = null;
         scope.crosshairEmiter = false;
 
@@ -204,7 +205,7 @@ function (angular, $, kbn, moment, _, GraphTooltip) {
           addAnnotations(options);
           configureAxisOptions(data, options);
 
-          var sortedSeries = _.sortBy(data, function(series) { return series.zindex; });
+          sortedSeries = _.sortBy(data, function(series) { return series.zindex; });
 
           function callPlot() {
             try {
@@ -259,14 +260,14 @@ function (angular, $, kbn, moment, _, GraphTooltip) {
         }
 
         function addGridThresholds(options, panel) {
-          if (panel.grid.threshold1) {
+          if (_.isNumber(panel.grid.threshold1)) {
             var limit1 = panel.grid.thresholdLine ? panel.grid.threshold1 : (panel.grid.threshold2 || null);
             options.grid.markings.push({
               yaxis: { from: panel.grid.threshold1, to: limit1 },
               color: panel.grid.threshold1Color
             });
 
-            if (panel.grid.threshold2) {
+            if (_.isNumber(panel.grid.threshold2)) {
               var limit2;
               if (panel.grid.thresholdLine) {
                 limit2 = panel.grid.threshold2;
@@ -431,7 +432,7 @@ function (angular, $, kbn, moment, _, GraphTooltip) {
         }
 
         new GraphTooltip(elem, dashboard, scope, function() {
-          return data;
+          return sortedSeries;
         });
 
         elem.bind("plotselected", function (event, ranges) {

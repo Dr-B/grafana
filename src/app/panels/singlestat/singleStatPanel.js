@@ -55,7 +55,7 @@ function (angular, app, _, $) {
 
         function getColorForValue(value) {
           for (var i = data.thresholds.length - 1; i >= 0 ; i--) {
-            if (value > data.thresholds[i]) {
+            if (value >= data.thresholds[i]) {
               return data.colorMap[i];
             }
           }
@@ -148,7 +148,7 @@ function (angular, app, _, $) {
 
           var body = getBigValueHtml();
 
-          if (panel.colorBackground && data.mainValue) {
+          if (panel.colorBackground && !isNaN(data.mainValue)) {
             var color = getColorForValue(data.mainValue);
             if (color) {
               $panelContainer.css('background-color', color);
@@ -186,7 +186,13 @@ function (angular, app, _, $) {
           var linkInfo = linkSrv.getPanelLinkAnchorInfo(panel.links[0]);
           if (linkInfo.href[0] === '#') { linkInfo.href = linkInfo.href.substring(1); }
 
-          $timeout(function() { $location.url(linkInfo.href); });
+          if (linkInfo.href.indexOf('http') === 0) {
+            window.location.href = linkInfo.href;
+          } else {
+            $timeout(function() {
+              $location.url(linkInfo.href);
+            });
+          }
 
           drilldownTooltip.detach();
         });

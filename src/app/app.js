@@ -9,6 +9,7 @@ define([
   'config',
   'bootstrap',
   'angular-route',
+  'angular-sanitize',
   'angular-strap',
   'angular-dragdrop',
   'extend-jquery',
@@ -49,7 +50,6 @@ function (angular, $, _, appLevelRequire, config) {
   };
 
   app.config(function ($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide) {
-
     $routeProvider.otherwise({ redirectTo: config.default_route });
     // this is how the internet told me to dynamically add modules :/
     register_fns.controller = $controllerProvider.register;
@@ -61,6 +61,7 @@ function (angular, $, _, appLevelRequire, config) {
 
   var apps_deps = [
     'ngRoute',
+    'ngSanitize',
     '$strap.directives',
     'ang-drag-drop',
     'grafana',
@@ -84,7 +85,7 @@ function (angular, $, _, appLevelRequire, config) {
     'directives/all',
     'filters/all',
     'components/partials',
-    'routes/all',
+    'routes/standalone/default',
   ];
 
   _.each(config.plugins.dependencies, function(dep) {

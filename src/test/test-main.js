@@ -4,7 +4,8 @@ require.config({
   paths: {
     specs:                 '../test/specs',
     mocks:                 '../test/mocks',
-    config:                '../config.sample',
+    helpers:               '../test/specs/helpers',
+    config:                ['../config', '../config.sample'],
     kbn:                   'components/kbn',
     store:                 'components/store',
 
@@ -18,6 +19,7 @@ require.config({
 
     angular:               '../vendor/angular/angular',
     'angular-route':       '../vendor/angular/angular-route',
+    'angular-sanitize':    '../vendor/angular/angular-sanitize',
     angularMocks:          '../vendor/angular/angular-mocks',
     'angular-dragdrop':       '../vendor/angular/angular-dragdrop',
     'angular-strap':          '../vendor/angular/angular-strap',
@@ -80,14 +82,11 @@ require.config({
     'jquery.flot.fillbelow':['jquery', 'jquery.flot'],
 
     'angular-route':        ['angular'],
-    'angular-cookies':      ['angular'],
+    'angular-sanitize':     ['angular'],
     'angular-dragdrop':     ['jquery', 'angular'],
-    'angular-loader':       ['angular'],
     'angular-mocks':        ['angular'],
-    'angular-resource':     ['angular'],
-    'angular-touch':        ['angular'],
-    'bindonce':             ['angular'],
     'angular-strap':        ['angular', 'bootstrap','timepicker', 'datepicker'],
+    'bindonce':             ['angular'],
 
     'bootstrap-tagsinput':          ['jquery'],
 
@@ -98,9 +97,10 @@ require.config({
 
 require([
   'angular',
+  'config',
   'angularMocks',
   'app',
-], function(angular) {
+], function(angular, config) {
   'use strict';
 
   for (var file in window.__karma__.files) {
@@ -109,13 +109,12 @@ require([
     }
   }
 
-
   angular.module('grafana', ['ngRoute']);
   angular.module('grafana.services', ['ngRoute', '$strap.directives']);
   angular.module('grafana.panels', []);
   angular.module('grafana.filters', []);
 
-  require([
+  var specs = [
     'specs/lexer-specs',
     'specs/parser-specs',
     'specs/gfunc-specs',
@@ -137,9 +136,14 @@ require([
     'specs/kbn-format-specs',
     'specs/dashboardSrv-specs',
     'specs/dashboardViewStateSrv-specs'
-  ], function () {
-    window.__karma__.start();
+  ];
+
+  var pluginSpecs = (config.plugins.specs || []).map(function (spec) {
+    return '../plugins/' + spec;
   });
 
+  require(specs.concat(pluginSpecs), function () {
+    window.__karma__.start();
+  });
 });
 
