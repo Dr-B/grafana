@@ -23,7 +23,6 @@ define([
   describeValueFormat('ms', 6515000, 1500000, 0, '1.8 hour');
   describeValueFormat('ms', 651500000, 150000000, 0, '8 day');
 
-  describeValueFormat('none', 2.75e-10, 0, 10, '3e-10');
   describeValueFormat('none', 0, 0, 2, '0');
 
   describeValueFormat('ns', 25, 1, 0, '25 ns');
