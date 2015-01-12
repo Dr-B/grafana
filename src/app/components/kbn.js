@@ -338,15 +338,14 @@ function($, _, moment) {
     if (value === null) {
       return "";
     }
-    
+
     if (value === 0) {
-    return "0";
+      return "0";
     }
-    
-	if (Math.abs(value)<0.001 ) {
-	return value.toExponential(1);
-	}
-	
+
+    if (Math.abs(value)<0.001) {
+      return value.toExponential(1);
+    }
 
     var factor = decimals ? Math.pow(10, Math.max(0, decimals)) : 1;
     var formatted = String(Math.round(value * factor) / factor);
