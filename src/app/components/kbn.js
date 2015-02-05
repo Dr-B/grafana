@@ -517,7 +517,8 @@ function($, _, moment) {
         submenu: [
           {text: 'bits', value: 'bits'},
           {text: 'bytes', value: 'bytes'},
-          {text: 'kilobytes', value: 'kbytes'},
+          {text: 'kilo bytes', value: 'kbytes'},
+          {text: 'mega bytes', value: 'mbytes'},
         ]
       },
       {
